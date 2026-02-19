@@ -1,68 +1,126 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    /* Marketplace-Engine palette - RGB for Tailwind rgb(var(...)) */
+    /* Primary: Soft mint green #DFF6E3 */
+    --primary: 223 246 227;
+    --primary-foreground: 34 34 34;
+    /* Accent: Fresh green #4CAF50 */
+    --accent: 76 175 80;
+    --accent-foreground: 255 255 255;
+    /* Background: Pure white #FFFFFF */
+    --background: 255 255 255;
+    --foreground: 34 34 34;
+    /* Secondary: Light gray #F8F8F8 */
+    --secondary: 248 248 248;
+    --secondary-foreground: 85 85 85;
+    /* Card */
+    --card: 255 255 255;
+    --card-foreground: 34 34 34;
+    /* Border, input, ring */
+    --border: 229 231 235;
+    --input: 229 231 235;
+    --ring: 76 175 80;
+    /* Accent details */
+    --muted: 248 248 248;
+    --muted-foreground: 85 85 85;
+    --destructive: 239 68 68;
+    --destructive-foreground: 255 255 255;
+    /* Yellow/orange accents */
+    --yellow: 249 231 159;
+    --orange: 255 167 38;
   }
-  a:hover {
-    color: #747bff;
+
+  * {
+    @apply border-border;
   }
-  button {
-    background-color: #f9f9f9;
+
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-in-fade-up {
+    animation: fade-up 0.5s ease-out forwards;
+  }
+
+  .animate-in-fade {
+    animation: fade-in 0.3s ease-out forwards;
+  }
+
+  .animate-in-slide-up {
+    animation: slide-up 0.4s ease-out forwards;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
