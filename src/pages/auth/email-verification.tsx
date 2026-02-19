@@ -1,43 +1,38 @@
-import { Link, useSearchParams } from 'react-router-dom'
-import { CheckCircle2, XCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useSearchParams } from 'react-router-dom'
+import { Card, CardContent } from '@/components/ui/card'
+import { VerificationStatusDisplay } from '@/components/email-verification-page/VerificationStatusDisplay'
+import { ResendVerificationButton } from '@/components/email-verification-page/ResendVerificationButton'
+import { LinkToLoginDashboard } from '@/components/email-verification-page/LinkToLoginDashboard'
+import type { VerificationStatus } from '@/types/email-verification'
 
+/**
+ * Email verification landing page. Handles verification token result and
+ * shows success/failure messages, resend verification, and links to login/dashboard.
+ */
 export function EmailVerificationPage() {
   const [searchParams] = useSearchParams()
-  const status = searchParams.get('status') ?? 'success'
-  const success = status === 'success'
+  const statusParam = searchParams.get('status') ?? 'success'
+  const email = searchParams.get('email')
+
+  const status: VerificationStatus =
+    statusParam === 'success'
+      ? 'success'
+      : statusParam === 'failure'
+        ? 'failure'
+        : 'pending'
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-secondary/30 px-4 py-12">
-      <Card className="w-full max-w-md text-center">
-        <CardHeader>
-          {success ? (
-            <CheckCircle2 className="mx-auto h-16 w-16 text-accent" aria-hidden />
-          ) : (
-            <XCircle className="mx-auto h-16 w-16 text-destructive" aria-hidden />
+      <Card className="w-full max-w-md animate-in-fade-up text-center">
+        <VerificationStatusDisplay status={status} />
+        <CardContent className="flex flex-col gap-4">
+          <LinkToLoginDashboard verificationSuccess={status === 'success'} />
+          {status === 'failure' && (
+            <ResendVerificationButton
+              email={email}
+              className="w-full"
+            />
           )}
-          <CardTitle>
-            {success ? 'Email verified' : 'Verification failed'}
-          </CardTitle>
-          <CardDescription>
-            {success
-              ? 'Your email has been verified. You can now sign in.'
-              : 'The link may have expired or already been used. Request a new verification email below.'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          <Button asChild>
-            <Link to="/login">Go to login</Link>
-          </Button>
-          {!success && (
-            <Button asChild variant="outline">
-              <Link to="/dashboard/buyer">Resend verification email</Link>
-            </Button>
-          )}
-          <Button asChild variant="ghost">
-            <Link to="/">Back to home</Link>
-          </Button>
         </CardContent>
       </Card>
     </div>
